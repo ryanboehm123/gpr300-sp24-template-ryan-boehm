@@ -30,6 +30,9 @@ void resetCamera(ew::Camera* camera, ew::CameraController* controller) {
 	controller->yaw = controller->pitch = 0;
 }
 
+ew::Camera camera;
+ew::CameraController cameraController;
+
 struct Material {
 	float Ka = 1.0;
 	float Kd = 0.5;
@@ -49,9 +52,7 @@ int main() {
 
 	ew::Shader shader = ew::Shader("assets/lit.vert", "assets/lit.frag");
 	ew::Model monkeyModel = ew::Model("assets/suzanne.obj");
-	ew::Camera camera;
 	ew::Transform monkeyTransform;
-	ew::CameraController cameraController;
 
 	camera.position = glm::vec3(0.0f, 0.0f, 5.0f);
 	camera.target = glm::vec3(0.0f, 0.0f, 0.0f); // Look at the center of the scene
@@ -116,7 +117,7 @@ void drawUI() {
 		ImGui::SliderFloat("Shininess", &material.Shininess, 2.0f, 1024.0f);
 	}
 	if (ImGui::Button("Reset Camera")) {
-		//resetCamera(&camera, &cameraController);
+		resetCamera(&camera, &cameraController);
 	}
 	ImGui::End();
 
