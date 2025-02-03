@@ -41,6 +41,10 @@ struct Material {
 	float Shininess = 128;
 }material;
 
+struct PostPros {
+	int postProsSelector = 1;
+}selector;
+
 int main() {
 	GLFWwindow* window = initWindow("Assignment 0", screenWidth, screenHeight);
 
@@ -124,6 +128,9 @@ int main() {
 		glClearColor(0.6f, 0.8f, 0.92f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		screenShader.use();
+		screenShader.setInt("_PostPros.postProsSelector", selector.postProsSelector);
+
 		// Clears backbuffer color & depth values
 		shader.use();
 		shader.setMat4("_ViewProjection", camera.projectionMatrix() * camera.viewMatrix());
@@ -179,6 +186,7 @@ void drawUI() {
 		ImGui::SliderFloat("SpecularK", &material.Ks, 0.0f, 1.0f);
 		ImGui::SliderFloat("Shininess", &material.Shininess, 2.0f, 1024.0f);
 	}
+	ImGui::SliderInt("Post Processing Effect", &selector.postProsSelector, 0, 1);
 	if (ImGui::Button("Reset Camera")) {
 		resetCamera(&camera, &cameraController);
 	}

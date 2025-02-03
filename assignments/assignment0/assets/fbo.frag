@@ -8,6 +8,11 @@ uniform sampler2D screenTexture;
 
 const float offset = 1.0 / 300.0;
 
+struct PostPros {
+    int postProsSelector;
+};
+uniform PostPros _PostPros;
+
 void main()
 { 
     vec2 offsets[9] = vec2[](
@@ -21,12 +26,6 @@ void main()
         vec2( 0.0f,   -offset), // Bottom center
         vec2( offset, -offset)  // Bottom right    
     );
-
-//    float kernel[9] = float[](
-//        1,  1, 1,
-//        1, -8, 1,
-//        1,  1, 1
-//    );
 
     float kernel[9] = float[](
         2,   2, 2,
@@ -46,6 +45,9 @@ void main()
         col += sampleTex[i] * kernel[i];
     }
 
-    FragColor = vec4(col, 1.0);
-    FragColor = vec4(vec3(1.0 - texture(screenTexture, TexCoords)), 1.0);
+    if(_PostPros.postProsSelector == 0) {
+        FragColor = vec4(col, 1.0);
+    } else {
+        FragColor = vec4(vec3(1.0 - texture(screenTexture, TexCoords)), 1.0);
+    }
 }
