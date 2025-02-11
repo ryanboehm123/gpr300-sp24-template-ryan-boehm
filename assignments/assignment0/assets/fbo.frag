@@ -28,9 +28,9 @@ void main()
     );
 
     float kernel[9] = float[](
-        2,   2, 2,
-        2, -15, 2,
-        2,   2, 2
+        1,  1, 1,
+        1, -8, 1,
+        1,  1, 1
     );
 
     vec3 sampleTex[9];
@@ -45,9 +45,20 @@ void main()
         col += sampleTex[i] * kernel[i];
     }
 
-    if(_PostPros.postProsSelector == 0) {
+    switch(_PostPros.postProsSelector) {
+        case 0:
+        FragColor = texture(screenTexture, TexCoords);
+        break;
+        case 1:
         FragColor = vec4(col, 1.0);
-    } else {
+        break;
+        case 2:
         FragColor = vec4(vec3(1.0 - texture(screenTexture, TexCoords)), 1.0);
+        break;
     }
+//    if(_PostPros.postProsSelector == 0) {
+//        FragColor = vec4(col, 1.0);
+//    } else {
+//        FragColor = vec4(vec3(1.0 - texture(screenTexture, TexCoords)), 1.0);
+//    }
 }
